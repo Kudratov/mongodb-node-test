@@ -12,7 +12,9 @@ const todos = [{
     text: 'First todo'
 }, {
     _id: new ObjectID(),
-    text: 'Second todo'
+    text: 'Second todo',
+    completed: true,
+    completedAt: 222
 }];
 
 beforeEach((done) => {
@@ -98,4 +100,46 @@ describe('GET /todos/:id', () => {
             //     })
             .end(done);
     });
+});
+
+describe('PATCH /todo:id', () => {
+
+    it('should update the todo', (done) => {
+        var hexId = todos[0]._id.toHexString();
+        var text = 'This fhould be new text';
+
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({
+                completed: true,
+                text: text
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.text).toBe(text);
+                expect(res.body.completed).toBe(true);
+                //expect(res.body.completedAt).toBeA('number');
+            })
+            .end(done);
+    });
+
+    it('should clear compleatedAt when todo is not compleated', (done) => {
+        var hexId = todos[1]._id.toHexString();
+        var text = 'This fhould be new text';
+
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({
+                completed: false,
+                text: text
+            })
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.text).toBe(text);
+                expect(res.body.completed).toBe(false);
+                //expect(res.body.completedAt).toBeA('number');
+            })
+            .end(done);
+    });
+
 });
