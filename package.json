@@ -5,13 +5,16 @@
     "main": "index.js",
     "scripts": {
         "start": "node server/server.js",
-        "test": "mocha server/**/*.test.js"
+        "test": "mocha --timeout 1000000 server/**/*.test.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
+        "crypto-js": "^3.1.9-1",
         "express": "^4.16.3",
+        "jsonwebtoken": "^8.3.0",
         "lodash": "^4.17.10",
         "mongodb": "^3.1.1",
         "mongoose": "^5.2.7",
